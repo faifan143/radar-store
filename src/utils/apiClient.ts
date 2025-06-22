@@ -1,7 +1,7 @@
 import axios, { AxiosInstance } from 'axios';
 
 const apiClient: AxiosInstance = axios.create({
-  baseURL: '/api',
+  baseURL: 'https://anycode-sy.com/radar/api',
   withCredentials: true,
 });
 
