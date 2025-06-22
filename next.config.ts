@@ -1,6 +1,4 @@
 /** @type {import('next').NextConfig} */
-const nextConfig = {
-  basePath: '/radar-store',
-};
+const nextConfig = {};
 
 export default nextConfig;
