@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import Spinner from "@/components/Spinner";
 import RewardsList from "@/components/RewardsList";
-import { Gift, Sparkles, TrendingUp, Plus, RefreshCw, CheckCircle, Clock, Trophy, Search, Filter } from "lucide-react";
+import { Gift, Plus, CheckCircle, Clock, Trophy, Search, Filter } from "lucide-react";
 import { useStoreDashboardStats, useRefreshStoreCache, useStoreRewardRequests } from "@/hooks/useStoreRewardRequests";
 import { toast } from "react-hot-toast";
 import CreateRewardModal from "@/components/CreateRewardModal";
@@ -38,9 +38,6 @@ export default function RewardsTabsPage() {
 
   // Dashboard stats hook
   const {
-    data: dashboardStats,
-    isLoading: statsLoading,
-    error: statsError,
     refetch: refetchStats
   } = useStoreDashboardStats(store?.id || '');
 
@@ -70,6 +67,7 @@ export default function RewardsTabsPage() {
       await refetchRequests();
       toast.success(t("Data refreshed successfully!"));
     } catch (error) {
+      console.log(error);
       toast.error(t("Failed to refresh data"));
     }
   };
@@ -108,7 +106,7 @@ export default function RewardsTabsPage() {
   const cancelledCount = filteredRequests.filter(r => r.status.toUpperCase() === 'CANCELLED').length;
 
   // Filter change handlers
-  const handleFilterChange = (key: keyof FilterState, value: any) => {
+  const handleFilterChange = (key: keyof FilterState, value: unknown) => {
     setFilters(prev => ({
       ...prev,
       [key]: value
@@ -131,14 +129,6 @@ export default function RewardsTabsPage() {
       categoryId: undefined,
       status: undefined
     });
-  };
-
-  // Status filter handlers
-  const handleStatusFilter = (status?: 'PENDING' | 'FULFILLED' | 'CANCELLED') => {
-    setFilters(prev => ({
-      ...prev,
-      status
-    }));
   };
 
   if (isLoading || isRequestsLoading) {
@@ -309,7 +299,7 @@ export default function RewardsTabsPage() {
             </div>
 
             {/* Error Banner */}
-            {(statsError || requestsError) && (
+            {(requestsError) && (
               <div className="mb-6 p-4 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800/50 rounded-xl">
                 <div className="flex items-center gap-3">
                   <div className="w-5 h-5 bg-red-500 rounded-full flex items-center justify-center">

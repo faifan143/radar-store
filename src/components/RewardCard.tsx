@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Gift, Edit, Trash2, MoreHorizontal, Eye, Users, Calendar, Tag, DollarSign, ToggleLeft, ToggleRight } from "lucide-react";
+import { Gift, Edit, Trash2, MoreHorizontal, Calendar, Tag, DollarSign, ToggleLeft, ToggleRight } from "lucide-react";
 import { Reward } from "@/types/reward-managment";
 import { useTranslation } from 'react-i18next';
 

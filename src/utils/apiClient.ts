@@ -1,5 +1,4 @@
 import axios, { AxiosInstance } from 'axios';
-import { useTranslation } from 'react-i18next';
 
 const apiClient: AxiosInstance = axios.create({
   baseURL: '/api',

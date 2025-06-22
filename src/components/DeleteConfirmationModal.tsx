@@ -121,7 +121,7 @@ export default function DeleteConfirmationModal({
                                             {t('Item to delete:')}
                                         </p>
                                         <p className="text-slate-900 dark:text-white font-semibold truncate">
-                                            "{itemName}"
+                                            {itemName}
                                         </p>
                                     </div>
                                 )}

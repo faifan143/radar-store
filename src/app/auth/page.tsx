@@ -50,8 +50,8 @@ export default function AuthPage() {
               router.push("/rewards");
             }, 1200);
           },
-          onError: (err) => {
-            toast.error(t(err?.message || "Failed to verify OTP. Please try again."));
+          onError: (err: unknown) => {
+            toast.error(t((err as Error)?.message || "Failed to verify OTP. Please try again."));
           }
         }
       );
@@ -125,8 +125,8 @@ export default function AuthPage() {
                             setSuccessMsg(data.message ? t(data.message) : t("OTP sent successfully!"));
                             toast.success(data.message ? t(data.message) : t("OTP sent successfully!"));
                           },
-                          onError: (err: any) => {
-                            toast.error(t(err?.message || "Failed to send OTP. Please try again."));
+                          onError: (err: unknown) => {
+                            toast.error(t((err as Error)?.message || "Failed to send OTP. Please try again."));
                           }
                         }
                       );
@@ -215,8 +215,8 @@ export default function AuthPage() {
                             router.push("/rewards");
                           }, 1200);
                         },
-                        onError: (err: any) => {
-                          toast.error(t(err?.message || "Failed to verify OTP. Please try again."));
+                        onError: (err: unknown) => {
+                          toast.error(t((err as Error)?.message || "Failed to verify OTP. Please try again."));
                         }
                       }
                     );

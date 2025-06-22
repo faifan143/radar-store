@@ -4,7 +4,7 @@ import { useAuthStore } from "@/stores";
 import { Reward } from "@/types/reward-managment";
 import { useRewardManagement } from "@/hooks/useRewardsManagment";
 import toast from "react-hot-toast";
-import { Download, Eye, Filter, Gift, Plus, Search, ToggleLeft } from "lucide-react";
+import { Eye, Filter, Gift, Search, ToggleLeft } from "lucide-react";
 import CreateRewardModal from "@/components/CreateRewardModal";
 import RewardFilters from "@/components/RewardFilters";
 import BulkActionsBar from "@/components/BulkActionsBar";
@@ -12,6 +12,7 @@ import RewardCard from "@/components/RewardCard";
 import EditRewardModal from "@/components/EditRewardModal";
 import DeleteConfirmationModal from "@/components/DeleteConfirmationModal";
 import { useTranslation } from 'react-i18next';
+import { FilterState } from "@/components/RewardFilters";
 
 interface DeleteAction {
     type: 'single' | 'bulk';
@@ -38,8 +39,6 @@ export default function RewardsManagementPage() {
         updateFilter,
         resetFilters,
         clearFilters,
-        createReward,
-        updateReward,
         deleteReward,
         toggleStatus,
         bulkUpdate,
@@ -117,6 +116,8 @@ export default function RewardsManagementPage() {
             }
             setDeleteAction(null);
         } catch (error) {
+            console.log(error);
+
             toast.error(t('Failed to delete reward(s)'));
         }
     };
@@ -130,6 +131,8 @@ export default function RewardsManagementPage() {
             });
             toast.success(t('Reward {{status}} successfully!', { status: !reward.isActive ? t('activated') : t('deactivated') }));
         } catch (error) {
+            console.log(error);
+
             toast.error(t('Failed to update reward status'));
         }
     };
@@ -156,6 +159,8 @@ export default function RewardsManagementPage() {
             toast.success(t('{{count}} rewards {{action}}d successfully!', { count: selectedRewards.length, action: t(action) }));
             setSelectedRewards([]);
         } catch (error) {
+            console.log(error);
+
             toast.error(t('Failed to {{action}} rewards', { action: t(action) }));
         }
     };
@@ -311,7 +316,7 @@ export default function RewardsManagementPage() {
                             <div className="mt-6 pt-6 border-t border-slate-200/50 dark:border-slate-700/50">
                                 <RewardFilters
                                     filters={{ ...filters, query: filters.query ?? "" }}
-                                    onFilterChange={updateFilter as any}
+                                    onFilterChange={updateFilter as (key: keyof FilterState, value: any) => void}
                                     onReset={resetFilters}
                                     onClear={clearFilters}
                                     storeId={store.id}

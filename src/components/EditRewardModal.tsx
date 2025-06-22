@@ -1,9 +1,9 @@
-import { useState, useEffect } from "react";
-import { X, Gift, Tag, DollarSign, Calendar, Users, Info, Save } from "lucide-react";
-import { toast } from "react-hot-toast";
-import { Reward, UpdateRewardDto } from "@/types/reward-managment";
 import { useUpdateStoreReward } from "@/hooks/useRewardsManagment";
 import { useStoreCategories } from "@/hooks/useStoreRewardRequests";
+import { Reward, UpdateRewardDto } from "@/types/reward-managment";
+import { Calendar, DollarSign, Gift, Info, Save, Tag, X } from "lucide-react";
+import { useEffect, useState } from "react";
+import { toast } from "react-hot-toast";
 import { useTranslation } from 'react-i18next';
 
 interface EditRewardModalProps {
@@ -23,7 +23,6 @@ export default function EditRewardModal({ isOpen, onClose, onSuccess, reward, st
         categoryId: '',
         isActive: true,
         expiryDate: '',
-        maxRedemptions: undefined
     });
 
     const updateReward = useUpdateStoreReward();
@@ -39,7 +38,6 @@ export default function EditRewardModal({ isOpen, onClose, onSuccess, reward, st
                 categoryId: reward.categoryId || '',
                 isActive: reward.isActive,
                 expiryDate: reward.expiryDate ? reward.expiryDate.split('T')[0] : '',
-                maxRedemptions: reward.maxRedemptions || undefined
             });
         }
     }, [reward]);
@@ -54,7 +52,6 @@ export default function EditRewardModal({ isOpen, onClose, onSuccess, reward, st
                 categoryId: '',
                 isActive: true,
                 expiryDate: '',
-                maxRedemptions: undefined
             });
         }
     }, [isOpen]);
@@ -80,6 +77,8 @@ export default function EditRewardModal({ isOpen, onClose, onSuccess, reward, st
 
             onSuccess();
         } catch (error) {
+            console.log(error);
+
             toast.error(t("Failed to update reward"));
         }
     };
@@ -235,24 +234,6 @@ export default function EditRewardModal({ isOpen, onClose, onSuccess, reward, st
                                     min={new Date().toISOString().split('T')[0]}
                                     className="w-full px-4 py-3 bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-600 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
                                 />
-                            </div>
-
-                            <div>
-                                <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
-                                    {t('Max Redemptions')}
-                                </label>
-                                <div className="relative">
-                                    <Users className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-slate-400" />
-                                    <input
-                                        type="number"
-                                        name="maxRedemptions"
-                                        value={formData.maxRedemptions || ''}
-                                        onChange={handleChange}
-                                        placeholder={t('Unlimited')}
-                                        min="1"
-                                        className="w-full pl-10 pr-4 py-3 bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-600 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
-                                    />
-                                </div>
                             </div>
                         </div>
 

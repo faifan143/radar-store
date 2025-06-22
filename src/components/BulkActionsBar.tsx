@@ -1,4 +1,4 @@
-import { Check, X, Trash2, ToggleLeft, ToggleRight, XCircle } from "lucide-react";
+import { Trash2, ToggleLeft, ToggleRight, XCircle } from "lucide-react";
 import { useTranslation } from 'react-i18next';
 
 interface BulkActionsBarProps {

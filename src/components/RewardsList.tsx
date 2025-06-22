@@ -1,10 +1,10 @@
-import { useState } from "react";
-import { useStoreRewardRequests, useUpdateUserRewardStatus, useBulkUpdateRewardStatus } from "@/hooks/useStoreRewardRequests";
-import { Gift, Clock, CheckCircle, XCircle, AlertCircle, Trophy, Sparkles, Calendar, Eye, Check, X, MoreHorizontal, User, Users } from "lucide-react";
-import { toast } from "react-hot-toast";
-import RewardDetailsModal from "./RewardDetailsModal";
+import { useBulkUpdateRewardStatus, useStoreRewardRequests, useUpdateUserRewardStatus } from "@/hooks/useStoreRewardRequests";
 import { RewardStatus, UserReward } from "@/types/reward";
+import { AlertCircle, Calendar, Check, CheckCircle, Clock, Eye, Gift, Sparkles, Trophy, User, X, XCircle } from "lucide-react";
+import { useState } from "react";
+import { toast } from "react-hot-toast";
 import { useTranslation } from 'react-i18next';
+import RewardDetailsModal from "./RewardDetailsModal";
 
 interface FilterState {
   query: string;
@@ -59,7 +59,6 @@ const getStatusText = (status: string, t: any) => {
 
 export default function RewardsList({ storeId, filters }: RewardsListProps) {
   const [selectedRewards, setSelectedRewards] = useState<string[]>([]);
-  const [selectedRewardId, setSelectedRewardId] = useState<string | null>(null);
   const [selectedReward, setSelectedReward] = useState<UserReward | null>(null);
   const [isDetailsModalOpen, setIsDetailsModalOpen] = useState(false);
   const { t } = useTranslation();
@@ -105,6 +104,8 @@ export default function RewardsList({ storeId, filters }: RewardsListProps) {
       });
       toast.success(t('Reward {{status}} successfully!', { status: getStatusText(newStatus, t) }));
     } catch (error) {
+      console.log(error);
+
       toast.error(t('Failed to {{status}} reward', { status: getStatusText(newStatus, t) }));
     }
   };
@@ -125,6 +126,8 @@ export default function RewardsList({ storeId, filters }: RewardsListProps) {
       toast.success(t('{{count}} rewards {{status}} successfully!', { count: selectedRewards.length, status: getStatusText(status, t) }));
       setSelectedRewards([]);
     } catch (error) {
+      console.log(error);
+
       toast.error(t('Failed to bulk {{status}} rewards', { status: getStatusText(status, t) }));
     }
   };

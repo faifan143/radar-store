@@ -17,6 +17,8 @@ interface RewardFiltersProps {
     storeId: string;
 }
 
+export type { FilterState };
+
 export default function RewardFilters({
     filters,
     onFilterChange,
@@ -145,7 +147,7 @@ export default function RewardFilters({
 
                             {filters.query && (
                                 <span className="inline-flex items-center gap-1 px-2 py-1 bg-green-100 dark:bg-green-900/20 text-green-700 dark:text-green-300 text-xs rounded-md">
-                                    {t('Search:')} "{filters.query}"
+                                    {t('Search:')} {filters.query}
                                     <button
                                         onClick={() => onFilterChange('query', '')}
                                         className="hover:text-green-900 dark:hover:text-green-100"
@@ -183,7 +185,7 @@ export default function RewardFilters({
 
                             {filters.query && (
                                 <span className="inline-flex items-center gap-1 px-2 py-1 bg-green-100 dark:bg-green-900/20 text-green-700 dark:text-green-300 text-xs rounded-md">
-                                    {t('Search:')} "{filters.query}"
+                                    {t('Search:')} {filters.query}
                                     <button
                                         onClick={() => onFilterChange('query', undefined)}
                                         className="hover:text-green-900 dark:hover:text-green-100"

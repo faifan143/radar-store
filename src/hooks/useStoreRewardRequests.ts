@@ -166,7 +166,7 @@ export function useCreateReward() {
 export function useStoreCategories(storeId: string) {
   return useQuery<any[]>({
     queryKey: ['storeCategories', storeId],
-    queryFn: () => getStoreCategories(storeId),
+    queryFn: () => getStoreCategories(),
     enabled: !!storeId,
     staleTime: 10 * 60 * 1000, // 10 minutes
   });

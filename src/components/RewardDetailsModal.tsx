@@ -1,6 +1,6 @@
 "use client";
 import { RewardStatus, UserReward } from "@/types/reward";
-import { X, Gift, User, Calendar, Tag, DollarSign, Clock, CheckCircle, XCircle, AlertCircle, Mail, Phone } from "lucide-react";
+import { AlertCircle, Calendar, CheckCircle, Clock, DollarSign, Gift, Mail, Tag, User, X, XCircle } from "lucide-react";
 import { useTranslation } from "react-i18next";
 
 interface RewardDetailsModalProps {
@@ -36,14 +36,10 @@ const getStatusColor = (status: string) => {
     }
 };
 
-export default function RewardDetailsModal({ isOpen, onClose, rewardRequest, onStatusUpdate }: RewardDetailsModalProps) {
+export default function RewardDetailsModal({ isOpen, onClose, rewardRequest }: RewardDetailsModalProps) {
     const { t } = useTranslation();
     if (!isOpen || !rewardRequest) return null;
 
-    const handleStatusUpdate = (newStatus: RewardStatus) => {
-        onStatusUpdate(rewardRequest.id, newStatus);
-        onClose();
-    };
 
     return (
         <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
@@ -184,7 +180,7 @@ export default function RewardDetailsModal({ isOpen, onClose, rewardRequest, onS
                                             {t('Last Updated')}
                                         </div>
                                         <div className="text-xs text-slate-600 dark:text-slate-400">
-                                            {typeof (rewardRequest as any).updatedAt === 'string' && (rewardRequest as any).updatedAt
+                                            {typeof (rewardRequest as any)?.updatedAt === 'string' && (rewardRequest as any)?.updatedAt
                                                 ? new Date((rewardRequest as any).updatedAt).toLocaleString()
                                                 : (rewardRequest.createdAt ? new Date(rewardRequest.createdAt).toLocaleString() : t('N/A'))}
                                         </div>

@@ -1,9 +1,9 @@
 "use client";
-import Link from 'next/link';
 import { useStoreAuth } from "@/context/StoreAuthContext";
-import { useState } from 'react';
-import { Radar, Gift, LogOut, Menu, X, User, Shield, Globe, LanguagesIcon } from "lucide-react";
+import { Globe, LanguagesIcon, LogOut, Menu, Radar, Shield, User, X } from "lucide-react";
+import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 export default function Navbar() {

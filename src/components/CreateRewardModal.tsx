@@ -1,6 +1,6 @@
-import { useState, useEffect } from "react";
 import { useCreateReward, useStoreCategories } from "@/hooks/useStoreRewardRequests";
-import { X, Gift, Tag, DollarSign, Calendar, Users, Info } from "lucide-react";
+import { Calendar, DollarSign, Gift, Info, Tag, X } from "lucide-react";
+import { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
 import { useTranslation } from 'react-i18next';
 
@@ -48,22 +48,20 @@ export default function CreateRewardModal({ isOpen, onClose, onSuccess, storeId 
         }
 
         try {
-            const submissionData: any = {
+            const submissionData = {
                 storeId,
                 title: formData.title,
                 description: formData.description,
                 pointsCost: parseInt(formData.pointsCost),
                 isActive: formData.isActive,
                 expiryDate: formData.expiryDate || undefined,
+                category: formData.categoryId || "",
+                // maxRedemptions: undefined // add if you support it in the form
             };
-
-            if (formData.categoryId) {
-                submissionData.category = formData.categoryId;
-            }
 
             await createReward.mutateAsync(submissionData);
             onSuccess();
-        } catch (error) {
+        } catch {
             toast.error(t("Failed to create reward"));
         }
     };

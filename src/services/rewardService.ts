@@ -208,7 +208,7 @@ export const fetchRewardsPaginated = async (
 /**
  * Get reward categories for the store
  */
-export const getStoreCategories = async (storeId: string): Promise<any[]> => {
+export const getStoreCategories = async (): Promise<any[]> => {
   const { data } = await apiClient.get(`/rewards/categories`);
   return data;
   /* Expected response: Array of categories with reward count
