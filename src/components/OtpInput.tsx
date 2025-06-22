@@ -18,13 +18,14 @@ export default function OtpInput({
   const { t } = useTranslation();
 
   return (
-    <div className="relative">
+    <div className="relative" dir="ltr">
       <OTPInput
         maxLength={length}
         value={value}
         onChange={onChange}
         inputMode="numeric"
         containerClassName="flex gap-3 justify-center"
+        dir="ltr"
         render={({ slots }) => (
           <>
             {slots.map((slot, idx) => {
@@ -37,6 +38,7 @@ export default function OtpInput({
                   onFocus={() => setFocusedIndex(idx)}
                   onBlur={() => setFocusedIndex(null)}
                   tabIndex={0}
+                  dir="ltr"
                   className={`relative w-12 h-16 flex items-center justify-center border-2 rounded-2xl text-2xl font-bold transition-all duration-300 transform ${isActive
                     ? 'border-blue-500 shadow-lg shadow-blue-500/30 scale-105 bg-blue-50 dark:bg-blue-900/20'
                     : hasValue
@@ -51,10 +53,11 @@ export default function OtpInput({
                   )}
 
                   {/* Input character */}
-                  <span className={`relative z-10 ${hasValue
-                    ? 'text-slate-800 dark:text-white'
-                    : 'text-slate-400 dark:text-slate-500'
-                    }`}>
+                  <span
+                    dir="ltr" className={`relative z-10 ${hasValue
+                      ? 'text-slate-800 dark:text-white'
+                      : 'text-slate-400 dark:text-slate-500'
+                      }`}>
                     {slot.char ?? (
                       <span className="select-none">
                         {isActive ? (
