@@ -1,0 +1,15 @@
+version: "3.8"
+
+services:
+  radar-store:
+    build: .
+    container_name: radar-store-container
+    restart: always
+    ports:
+      - "3069:3000"
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
