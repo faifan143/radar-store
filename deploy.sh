@@ -191,14 +191,14 @@ fi
 
 # 5. Build and Restart Docker Container
 print_header "BUILDING AND RESTARTING DOCKER SERVICE"
+
+print_info "Stopping and removing any existing '${SERVICE_NAME}' containers..."
+docker-compose down || print_info "No existing containers to remove."
+
 print_info "Building the Docker image for '${SERVICE_NAME}'. This may take a few minutes..."
 
-# Show build progress
 docker-compose build --no-cache ${SERVICE_NAME} || print_error "Docker build failed."
 print_success "Docker image built successfully."
-
-print_info "Stopping existing '${SERVICE_NAME}' service..."
-docker-compose stop ${SERVICE_NAME} 2>/dev/null || print_info "Service was not running."
 
 print_info "Starting the '${SERVICE_NAME}' service with the new image..."
 docker-compose up -d --force-recreate ${SERVICE_NAME} || print_error "Failed to start the Docker service."
