@@ -18,6 +18,7 @@ export const getStoreRewards = async (
         page: 1,
         limit: 10,
         sortBy: 'createdAt',
+        include_inactive: 'true',
         sortOrder: 'desc' as const,
         ...query
     };
