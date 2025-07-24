@@ -1,4 +1,4 @@
-import { useBulkUpdateRewardStatus, useStoreRewardRequests, useUpdateUserRewardStatus } from "@/hooks/useStoreRewardRequests";
+import { useStoreRewardRequests, useUpdateUserRewardStatus } from "@/hooks/useStoreRewardRequests";
 import { RewardStatus, UserReward } from "@/types/reward";
 import { AlertCircle, Calendar, Check, CheckCircle, Clock, Eye, Gift, Sparkles, Trophy, User, X, XCircle } from "lucide-react";
 import { useState } from "react";
@@ -67,7 +67,7 @@ export default function RewardsList({ storeId, filters, onViewDetails }: Rewards
   // Hooks
   const { data: rawData, isLoading, error, refetch } = useStoreRewardRequests(storeId, statusFilter);
   const updateStatus = useUpdateUserRewardStatus();
-  const bulkUpdate = useBulkUpdateRewardStatus();
+  // const bulkUpdate = useBulkUpdateRewardStatus();
 
   // Apply client-side filtering for text search and category
   const filteredData = rawData?.filter((request: UserReward) => {
@@ -109,26 +109,26 @@ export default function RewardsList({ storeId, filters, onViewDetails }: Rewards
   };
 
   // Handle bulk status update
-  const handleBulkUpdate = async (status: string) => {
-    if (selectedRewards.length === 0) {
-      toast.error(t('Please select rewards to update'));
-      return;
-    }
+  // const handleBulkUpdate = async (status: string) => {
+  //   if (selectedRewards.length === 0) {
+  //     toast.error(t('Please select rewards to update'));
+  //     return;
+  //   }
 
-    try {
-      await bulkUpdate.mutateAsync({
-        ids: selectedRewards,
-        status,
-        storeId
-      });
-      toast.success(t('{{count}} rewards {{status}} successfully!', { count: selectedRewards.length, status: getStatusText(status, t) }));
-      setSelectedRewards([]);
-    } catch (error) {
-      console.log(error);
+  //   try {
+  //     await bulkUpdate.mutateAsync({
+  //       ids: selectedRewards,
+  //       status,
+  //       storeId
+  //     });
+  //     toast.success(t('{{count}} rewards {{status}} successfully!', { count: selectedRewards.length, status: getStatusText(status, t) }));
+  //     setSelectedRewards([]);
+  //   } catch (error) {
+  //     console.log(error);
 
-      toast.error(t('Failed to bulk {{status}} rewards', { status: getStatusText(status, t) }));
-    }
-  };
+  //     toast.error(t('Failed to bulk {{status}} rewards', { status: getStatusText(status, t) }));
+  //   }
+  // };
 
   // Handle select/deselect rewards
   const handleSelectReward = (rewardId: string) => {
@@ -139,15 +139,15 @@ export default function RewardsList({ storeId, filters, onViewDetails }: Rewards
     );
   };
 
-  const handleSelectAll = () => {
-    if (!data) return;
+  // const handleSelectAll = () => {
+  //   if (!data) return;
 
-    if (selectedRewards.length === data.length) {
-      setSelectedRewards([]);
-    } else {
-      setSelectedRewards(data.map(reward => reward.id));
-    }
-  };
+  //   if (selectedRewards.length === data.length) {
+  //     setSelectedRewards([]);
+  //   } else {
+  //     setSelectedRewards(data.map(reward => reward.id));
+  //   }
+  // };
 
   // Handle view details
   const handleViewDetails = (reward: UserReward) => {
