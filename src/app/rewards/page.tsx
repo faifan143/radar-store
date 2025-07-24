@@ -6,12 +6,14 @@ import { useEffect } from "react";
 import Spinner from "@/components/Spinner";
 import RewardsList from "@/components/RewardsList";
 import { Gift, Plus, CheckCircle, Clock, Trophy, Search, Filter } from "lucide-react";
-import { useStoreDashboardStats, useRefreshStoreCache, useStoreRewardRequests } from "@/hooks/useStoreRewardRequests";
+import { useStoreDashboardStats, useRefreshStoreCache, useStoreRewardRequests, useUpdateUserRewardStatus } from "@/hooks/useStoreRewardRequests";
 import { toast } from "react-hot-toast";
 import CreateRewardModal from "@/components/CreateRewardModal";
 import RewardsManagementPage from "../rewards-managment/page";
 import RewardFilters from "@/components/RewardFilters";
+import RewardDetailsModal from "@/components/RewardDetailsModal";
 import { useTranslation } from 'react-i18next';
+import { UserReward, RewardStatus } from "@/types/reward";
 
 interface FilterState {
   query?: string;
@@ -26,6 +28,8 @@ export default function RewardsTabsPage() {
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   const [activeTab, setActiveTab] = useState<'rewards' | 'management'>('rewards');
   const [showFilters, setShowFilters] = useState(false);
+  const [selectedReward, setSelectedReward] = useState<UserReward | null>(null);
+  const [isDetailsModalOpen, setIsDetailsModalOpen] = useState(false);
   const { t } = useTranslation();
 
   // Centralized filter state
@@ -52,6 +56,9 @@ export default function RewardsTabsPage() {
     refetch: refetchRequests
   } = useStoreRewardRequests(store?.id ?? "", filters.status);
 
+  // Status update hook
+  const updateStatus = useUpdateUserRewardStatus();
+
   useEffect(() => {
     if (!isLoading && !isAuthenticated) {
       router.replace("/auth");
@@ -76,6 +83,28 @@ export default function RewardsTabsPage() {
     setIsCreateModalOpen(false);
     toast.success(t("Reward created successfully!"));
     // Stats will auto-refresh due to query invalidation
+  };
+
+  // Handle view details
+  const handleViewDetails = (reward: UserReward) => {
+    setSelectedReward(reward);
+    setIsDetailsModalOpen(true);
+  };
+
+  // Handle status update
+  const handleStatusUpdate = async (rewardId: string, newStatus: RewardStatus) => {
+    try {
+      await updateStatus.mutateAsync({
+        id: rewardId,
+        status: newStatus
+      });
+      toast.success(t('Reward {{status}} successfully!', { status: newStatus }));
+      setIsDetailsModalOpen(false);
+      setSelectedReward(null);
+    } catch (error) {
+      console.log(error);
+      toast.error(t('Failed to {{status}} reward', { status: newStatus }));
+    }
   };
 
   // Calculate counts from filtered data
@@ -363,6 +392,7 @@ export default function RewardsTabsPage() {
                   <RewardsList
                     storeId={store.id}
                     filters={{ ...filters, query: filters.query ?? "" }}
+                    onViewDetails={handleViewDetails}
                   />
                 }
               </div>
@@ -391,6 +421,19 @@ export default function RewardsTabsPage() {
         onSuccess={handleCreateRewardSuccess}
         storeId={store?.id || ''}
       />
+
+      {/* Reward Details Modal */}
+      {isDetailsModalOpen && (
+        <RewardDetailsModal
+          isOpen={isDetailsModalOpen}
+          onClose={() => {
+            setIsDetailsModalOpen(false);
+            setSelectedReward(null);
+          }}
+          rewardRequest={selectedReward}
+          onStatusUpdate={handleStatusUpdate}
+        />
+      )}
 
       <style jsx>{`
         @keyframes float {

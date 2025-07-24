@@ -39,8 +39,6 @@ const getStatusColor = (status: string) => {
 export default function RewardDetailsModal({ isOpen, onClose, rewardRequest }: RewardDetailsModalProps) {
     const { t } = useTranslation();
     if (!isOpen || !rewardRequest) return null;
-
-
     return (
         <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
             <div className="bg-white dark:bg-slate-900 rounded-3xl shadow-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto hide-scrollbar">

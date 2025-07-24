@@ -4,7 +4,6 @@ import { AlertCircle, Calendar, Check, CheckCircle, Clock, Eye, Gift, Sparkles, 
 import { useState } from "react";
 import { toast } from "react-hot-toast";
 import { useTranslation } from 'react-i18next';
-import RewardDetailsModal from "./RewardDetailsModal";
 
 interface FilterState {
   query: string;
@@ -16,6 +15,7 @@ interface FilterState {
 interface RewardsListProps {
   storeId: string;
   filters?: FilterState;
+  onViewDetails?: (reward: UserReward) => void;
 }
 
 const getStatusIcon = (status: string) => {
@@ -57,10 +57,8 @@ const getStatusText = (status: string, t: any) => {
   }
 };
 
-export default function RewardsList({ storeId, filters }: RewardsListProps) {
+export default function RewardsList({ storeId, filters, onViewDetails }: RewardsListProps) {
   const [selectedRewards, setSelectedRewards] = useState<string[]>([]);
-  const [selectedReward, setSelectedReward] = useState<UserReward | null>(null);
-  const [isDetailsModalOpen, setIsDetailsModalOpen] = useState(false);
   const { t } = useTranslation();
 
   // Use the status filter from props if available
@@ -153,8 +151,9 @@ export default function RewardsList({ storeId, filters }: RewardsListProps) {
 
   // Handle view details
   const handleViewDetails = (reward: UserReward) => {
-    setSelectedReward(reward);
-    setIsDetailsModalOpen(true);
+    if (onViewDetails) {
+      onViewDetails(reward);
+    }
   };
 
   if (isLoading) {
@@ -229,7 +228,7 @@ export default function RewardsList({ storeId, filters }: RewardsListProps) {
   return (
     <div className="space-y-4">
       {/* Bulk actions */}
-      {selectedRewards.length > 0 && (
+      {/* {selectedRewards.length > 0 && (
         <div className="p-4 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800/50 rounded-xl">
           <div className="flex items-center justify-between">
             <div className="text-blue-700 dark:text-blue-300 font-medium">
@@ -261,10 +260,10 @@ export default function RewardsList({ storeId, filters }: RewardsListProps) {
             </div>
           </div>
         </div>
-      )}
+      )} */}
 
       {/* List header */}
-      <div className="flex items-center justify-between py-2">
+      {/* <div className="flex items-center justify-between py-2">
         <div className="flex items-center gap-3">
           <input
             type="checkbox"
@@ -279,7 +278,7 @@ export default function RewardsList({ storeId, filters }: RewardsListProps) {
         <div className="text-sm text-slate-500 dark:text-slate-400">
           {data.length} {filters?.query || filters?.categoryId ? t('filtered') : t('total')} {t('requests', { count: data.length })}
         </div>
-      </div>
+      </div> */}
 
       {/* Rewards list */}
       <div className="space-y-4">
@@ -408,18 +407,7 @@ export default function RewardsList({ storeId, filters }: RewardsListProps) {
         </div>
       )}
 
-      {/* Reward Details Modal */}
-      {isDetailsModalOpen && (
-        <RewardDetailsModal
-          isOpen={isDetailsModalOpen}
-          onClose={() => {
-            setIsDetailsModalOpen(false);
-            setSelectedReward(null);
-          }}
-          rewardRequest={selectedReward}
-          onStatusUpdate={handleStatusUpdate}
-        />
-      )}
+
     </div>
   );
 }
